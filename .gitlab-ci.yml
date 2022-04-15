@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: "python:3.7" 
+image: "python:3.9" 
 #commands to run in the Docker container before starting each job.
 before_script:
   - python --version
@@ -15,7 +15,7 @@ stages:
 pylint:
   stage: Static Analysis
   script:
-  - pylint -d C0301 $(find . -name "*.py")
+  - pylint -d C0301 $(git ls-files '*.py')
 
 pytest:
   stage: Test
