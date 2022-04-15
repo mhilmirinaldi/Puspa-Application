@@ -16,14 +16,10 @@ pylint:
   stage: Static Analysis
   script:
   - pylint -d C0103 $(git ls-files '*.py')
-  tags:
-  - pylint
 
 pytest:
   stage: Test
   script:
-  - pytest
-  tags:
   - pytest
   
 MSDeploy:
