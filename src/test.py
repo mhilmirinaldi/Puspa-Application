@@ -2,7 +2,7 @@
 for i in range(10):
     print("Hello World")
 
-a = 1
-b = 2
-c = 3
-print(a + b + c)
+A = 1
+B = 2
+C = 3
+print(A + B + C)
