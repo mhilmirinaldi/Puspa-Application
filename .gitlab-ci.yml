@@ -16,17 +16,21 @@ pylint:
   stage: Static Analysis
   script:
   - pylint -d C0103 $(git ls-files '*.py')
+  tags:
+  - pylint
 
 pytest:
   stage: Test
   script:
   - pytest
+  tags:
+  - pytest
   
 MSDeploy:
   stage: Deploy
   script:
-  - echo "test ms depoly"
-  - cd src/
-  - pyinstaller -F lintpractice.py
+  - echo "test ms deploy"
+  - cd src
+  - pyinstaller -F hello.py
   tags:
   - deployMS

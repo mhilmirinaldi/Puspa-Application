@@ -1,11 +1,13 @@
-"""Print hello world 10 times and add method"""
-for i in range(10):
-    print("Hello World")
+"""test a tkinter window"""
+import tkinter as tk
 
-A = 1
-B = 2
-C = 3
-print(A + B + C)
+window = tk.Tk()
+
+greeting = tk.Label(text="Hello, I'm Tkinter.\nNice to meet you!")
+
+greeting.pack()
+
+window.mainloop()
 
 
 def add(a, b):
