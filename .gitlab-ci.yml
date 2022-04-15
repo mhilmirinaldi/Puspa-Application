@@ -28,5 +28,3 @@ MSDeploy:
   - echo "test ms deploy"
   - cd src
   - pyinstaller -F hello.py
-  tags:
-  - deployMS
