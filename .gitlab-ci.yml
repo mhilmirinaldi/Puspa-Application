@@ -10,8 +10,23 @@ before_script:
 stages:
   - Static Analysis
   - Test
+  - Deploy
 #defines the job in Static Analysis
 pylint:
   stage: Static Analysis
   script:
   - pylint -d C0301 src/*.py
+  
+pytest:
+  stage: Test
+  script:
+  - cd test/;pytest -v
+  
+MSDeploy:
+  stage: Deploy
+  script:
+  - echo "test ms depoly"
+  - cd src/
+  - pyinstaller -F lintpractice.py
+  tags:
+  - deployMS
