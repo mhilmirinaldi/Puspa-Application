@@ -15,7 +15,7 @@ stages:
 pylint:
   stage: Static Analysis
   script:
-  - pylint -d C0301 'src/*.py'
+  - pylint -d C0301 $(find . -name "*.py")
 
 pytest:
   stage: Test
