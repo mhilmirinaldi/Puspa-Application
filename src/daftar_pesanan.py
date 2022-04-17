@@ -105,15 +105,16 @@ def get_all_pesanan(isadmin: bool, username:str = None) -> 'list[PesananInfo]':
             'SELECT * FROM pesanan NATURAL INNER JOIN user NATURAL INNER JOIN tanaman' +
             ' WHERE username=?;',
         (username,))
-    results = cur.fetchall()
+    results_fetch = cur.fetchall()
 
-    for result in results:
+    for result in results_fetch:
         ret.append(PesananInfo(result))
 
     return ret
 
-def calculate_cost(pesanan):
-    return pesanan.unit_price * pesanan.duration * pesanan.quantity
+def calculate_cost(pesanannow):
+    """Menghitung total biaya dari suatu pesanan"""
+    return pesanannow.unit_price * pesanannow.duration * pesanannow.quantity
 
 root = tk.Tk()
 root.title("PUSPA - Pusat Penyewaan Tanaman")
