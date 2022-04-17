@@ -1,6 +1,9 @@
+"""Test untuk daftar_pesanan.py"""
+
 import daftar_pesanan
 
 def test_calculate_cost():
+    """Testing calculate_cost()"""
     single_query_result = [0 for i in range(19)]
     pesanan = daftar_pesanan.PesananInfo(single_query_result)
     pesanan.unit_price = 10000
