@@ -96,7 +96,9 @@ class DetailTanaman(tk.Frame):
         pesan_button.grid(row=7, column=0, pady=(20,0), sticky="we")
         back_button.grid(row=8, column=0, pady=(10,0), sticky="we")
 
-        self.plant_image = ImageTk.PhotoImage(Image.open(tanaman_info.image_path).resize(size=(500, 500), resample=Image.NEAREST))
+        self.plant_image = ImageTk.PhotoImage(
+            Image.open(tanaman_info.image_path).resize(size=(500, 500), resample=Image.NEAREST)
+        )
         plant_image_label = tk.Label(self, image=self.plant_image, bg="#FFFFFF")
         plant_image_label.grid(row=0, column=4, rowspan=9, sticky="news")
         self.grid_columnconfigure(4, weight=1)
