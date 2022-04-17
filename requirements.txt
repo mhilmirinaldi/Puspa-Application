@@ -1,3 +1,4 @@
 pylint==2.13.5
 pytest==7.1.1
 pyinstaller==4.10
+PIL == 9.0.1
