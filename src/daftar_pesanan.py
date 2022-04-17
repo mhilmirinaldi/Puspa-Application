@@ -116,51 +116,52 @@ def calculate_cost(pesanannow):
     """Menghitung total biaya dari suatu pesanan"""
     return pesanannow.unit_price * pesanannow.duration * pesanannow.quantity
 
-root = tk.Tk()
-root.title("PUSPA - Pusat Penyewaan Tanaman")
-root.geometry("1920x1080")
-root.state('zoomed')
-root.configure(bg='white')
-root.configure(padx=100, pady=10)
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("PUSPA - Pusat Penyewaan Tanaman")
+    root.geometry("1920x1080")
+    root.state('zoomed')
+    root.configure(bg='white')
+    root.configure(padx=100, pady=10)
 
-title_text = tk.Label(root, text="Daftar Pesanan", font=("arial", "20", "bold"), bg="#FFFFFF")
-title_text.pack(fill='x')
+    title_text = tk.Label(root, text="Daftar Pesanan", font=("arial", "20", "bold"), bg="#FFFFFF")
+    title_text.pack(fill='x')
 
-back_text = tk.StringVar()
-back_button = tk.Button(root, textvariable=back_text, bg='#55A361', fg='#FFFFFF',
-                        bd=0, font=("Arial", "9", "bold"), padx=10, pady=5)
-back_button.pack(anchor='w', pady=(5, 10))
-back_text.set("< Kembali")
+    back_text = tk.StringVar()
+    back_button = tk.Button(root, textvariable=back_text, bg='#55A361', fg='#FFFFFF',
+                            bd=0, font=("Arial", "9", "bold"), padx=10, pady=5)
+    back_button.pack(anchor='w', pady=(5, 10))
+    back_text.set("< Kembali")
 
-# Konfigurasi Scrollbar
-pesanan_canvas = tk.Canvas(root)
-pesanan_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=pesanan_canvas.yview)
-pesanan_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+    # Konfigurasi Scrollbar
+    pesanan_canvas = tk.Canvas(root)
+    pesanan_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=pesanan_canvas.yview)
+    pesanan_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-def _on_mouse_wheel(event):
-    pesanan_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
-pesanan_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+    def _on_mouse_wheel(event):
+        pesanan_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+    pesanan_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
 
-# Membuat frame pesanan dan memasukkannya ke scrollbar canvas
-pesanan_frame = tk.LabelFrame(pesanan_canvas, text="Daftar Pesanan", bg="#FFFFFF")
-pesanan_frame.bind(
-    "<Configure>",
-    lambda e: pesanan_canvas.configure(scrollregion=pesanan_canvas.bbox("all"))
-)
-pesanan_frame_id = pesanan_canvas.create_window((0, 0), window=pesanan_frame, anchor="nw")
-print(pesanan_canvas.winfo_width())
-pesanan_canvas.configure(yscrollcommand=pesanan_scrollbar.set)
-pesanan_canvas.bind(
-    "<Configure>",
-    lambda e: pesanan_canvas.itemconfig(pesanan_frame_id, width=e.width)
-)
+    # Membuat frame pesanan dan memasukkannya ke scrollbar canvas
+    pesanan_frame = tk.LabelFrame(pesanan_canvas, text="Daftar Pesanan", bg="#FFFFFF")
+    pesanan_frame.bind(
+        "<Configure>",
+        lambda e: pesanan_canvas.configure(scrollregion=pesanan_canvas.bbox("all"))
+    )
+    pesanan_frame_id = pesanan_canvas.create_window((0, 0), window=pesanan_frame, anchor="nw")
+    print(pesanan_canvas.winfo_width())
+    pesanan_canvas.configure(yscrollcommand=pesanan_scrollbar.set)
+    pesanan_canvas.bind(
+        "<Configure>",
+        lambda e: pesanan_canvas.itemconfig(pesanan_frame_id, width=e.width)
+    )
 
-# Mengambil data dari database dan memasukkannya ke frame
-results = get_all_pesanan(True, "bryanahusna")
-for pesanan in results:
-    pge = PesananGuiEntry.generate(pesanan_frame, pesanan)
-    pge.pack(fill='x', padx=10, pady=(10,0))
+    # Mengambil data dari database dan memasukkannya ke frame
+    results = get_all_pesanan(True, "bryanahusna")
+    for pesanan in results:
+        pge = PesananGuiEntry.generate(pesanan_frame, pesanan)
+        pge.pack(fill='x', padx=10, pady=(10,0))
 
 
-root.mainloop()
+    root.mainloop()
