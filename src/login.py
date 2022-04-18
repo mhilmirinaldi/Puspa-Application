@@ -5,9 +5,10 @@ import sqlite3
 from PIL import Image, ImageTk
 
 ui = Tk()
-ui.title("PUSPA")
-ui.geometry("1200x800")
+ui.title("PUSPA - Pusat Penyewaan Tanaman")
+ui.geometry("1920x1080")
 ui.configure(background='white')
+ui.state('zoomed')
 
 data = sqlite3.connect("user.db")
 crsr = data.cursor()
@@ -99,33 +100,33 @@ class Login:
         self.login_password = StringVar()
 
         background = ImageTk.PhotoImage(Image.open("background.png"))
-        canvas = Canvas(self.frame, height=800, width=600)
+        canvas = Canvas(self.frame, height=1080, width=1160)
         canvas.create_image(0, 0, anchor=NW, image=background)
-        canvas.place(x=600, y=0)
+        canvas.place(x=760, y=0)
 
-        label1 = Label(self.frame, text="Login to your account", font=("", 17), pady=10, bg='white')
-        label1.place(x=130, y=100)
-        label2 = Label(self.frame, text="Username", font=("", 14), pady=7, bg='white')
-        label2.place(x=130, y=150)
-        label3 = Label(self.frame, text="Password", font=("", 14), pady=7, bg='white')
-        label3.place(x=130, y=230)
+        label1 = Label(self.frame, text="Login to your account", font=("", 27), pady=10, bg='white')
+        label1.place(x=200, y=290)
+        label2 = Label(self.frame, text="Username", font=("", 17), pady=7, bg='white')
+        label2.place(x=200, y=360)
+        label3 = Label(self.frame, text="Password", font=("", 17), pady=7, bg='white')
+        label3.place(x=200, y=440)
 
-        entry2 = Entry(self.frame, textvariable=self.login_username, bd=5, font=("", 14), width=25)
-        entry2.place(x=130, y=190)
+        entry2 = Entry(self.frame, textvariable=self.login_username, bd=5, font=("", 17), width=25)
+        entry2.place(x=200, y=400)
         entry3 = Entry(self.frame, textvariable=self.login_password,\
-                        bd=5, font=("", 14), width=25, show="*")
-        entry3.place(x=130, y=270)
+                        bd=5, font=("", 17), width=25, show="*")
+        entry3.place(x=200, y=480)
 
         button1 = Button(self.frame, text="Login", command=self.login,\
-                         font=("", 14), width=25)
-        button1.place(x=130, y=320)
+                         font=("", 16), width=27)
+        button1.place(x=200, y=540)
 
-        label4 = Label(self.frame, text="Don't have an account?", font=("", 14),\
+        label4 = Label(self.frame, text="Don't have an account?", font=("", 16),\
                         pady=10, bg='white')
-        label4.place(x=130, y=360)
-        label5 = Label(self.frame, text="Register", font=("", 14), pady=10,\
+        label4.place(x=200, y=590)
+        label5 = Label(self.frame, text="Register", font=("", 16), pady=10,\
                         fg="#668cff", bg='white')
-        label5.place(x=335, y=360)
+        label5.place(x=430, y=590)
         label5.bind("<Button-1>", lambda e:self.register_ui())
 
         self.frame.mainloop()
@@ -142,48 +143,48 @@ class Login:
         self.address = StringVar()
 
         background = ImageTk.PhotoImage(Image.open("background.png"))
-        canvas = Canvas(self.frame, height=800, width=600)
+        canvas = Canvas(self.frame, height=1080, width=1160)
         canvas.create_image(0, 0, anchor=NW, image=background)
-        canvas.place(x=600, y=0)
+        canvas.place(x=760, y=0)
 
-        label1 = Label(self.frame, text="Create new account", font=("", 17), pady=10, bg='white')
-        label1.place(x=130, y=100)
-        label2 = Label(self.frame, text="Username", font=("", 14), pady=7, bg='white')
-        label2.place(x=130, y=150)
-        label3 = Label(self.frame, text="Password", font=("", 14), pady=7, bg='white')
-        label3.place(x=130, y=230)
-        label4 = Label(self.frame, text="Name", font=("", 14), pady=7, bg='white')
-        label4.place(x=130, y=310)
-        label4 = Label(self.frame, text="Email", font=("", 14), pady=7, bg='white')
-        label4.place(x=130, y=390)
-        label5 = Label(self.frame, text="Phone", font=("", 14), pady=7, bg='white')
-        label5.place(x=130, y=470)
-        label6 = Label(self.frame, text="Address", font=("", 14), pady=7, bg='white')
-        label6.place(x=130, y=550)
+        label1 = Label(self.frame, text="Create new account", font=("", 27), pady=10, bg='white')
+        label1.place(x=200, y=150)
+        label2 = Label(self.frame, text="Username", font=("", 17), pady=7, bg='white')
+        label2.place(x=200, y=220)
+        label3 = Label(self.frame, text="Password", font=("", 17), pady=7, bg='white')
+        label3.place(x=200, y=300)
+        label4 = Label(self.frame, text="Name", font=("", 17), pady=7, bg='white')
+        label4.place(x=200, y=380)
+        label4 = Label(self.frame, text="Email", font=("", 17), pady=7, bg='white')
+        label4.place(x=200, y=460)
+        label5 = Label(self.frame, text="Phone", font=("", 17), pady=7, bg='white')
+        label5.place(x=200, y=540)
+        label6 = Label(self.frame, text="Address", font=("", 17), pady=7, bg='white')
+        label6.place(x=200, y=620)
 
-        entry2 = Entry(self.frame, textvariable=self.username, bd=5, font=("", 14), width=25)
-        entry2.place(x=130, y=190)
-        entry3 = Entry(self.frame, textvariable=self.password, bd=5, font=("", 14), width=25,\
+        entry2 = Entry(self.frame, textvariable=self.username, bd=5, font=("", 17), width=25)
+        entry2.place(x=200, y=260)
+        entry3 = Entry(self.frame, textvariable=self.password, bd=5, font=("", 17), width=25,\
                         show="*")
-        entry3.place(x=130, y=270)
-        entry4 = Entry(self.frame, textvariable=self.name, bd=5, font=("", 14), width=25)
-        entry4.place(x=130, y=350)
-        entry4 = Entry(self.frame, textvariable=self.email, bd=5, font=("", 14), width=25)
-        entry4.place(x=130, y=430)
-        entry5 = Entry(self.frame, textvariable=self.phone, bd=5, font=("", 14), width=25)
-        entry5.place(x=130, y=510)
-        entry6 = Entry(self.frame, textvariable=self.address, bd=5, font=("", 14), width=25)
-        entry6.place(x=130, y=590)
+        entry3.place(x=200, y=340)
+        entry4 = Entry(self.frame, textvariable=self.name, bd=5, font=("", 17), width=25)
+        entry4.place(x=200, y=420)
+        entry4 = Entry(self.frame, textvariable=self.email, bd=5, font=("", 17), width=25)
+        entry4.place(x=200, y=500)
+        entry5 = Entry(self.frame, textvariable=self.phone, bd=5, font=("", 17), width=25)
+        entry5.place(x=200, y=580)
+        entry6 = Entry(self.frame, textvariable=self.address, bd=5, font=("", 17), width=25)
+        entry6.place(x=200, y=660)
 
-        button1 = Button(self.frame, text="Register", command=self.register, font=("", 14),\
-                         width=25)
-        button1.place(x=130, y=640)
+        button1 = Button(self.frame, text="Register", command=self.register, font=("", 16),\
+                         width=27)
+        button1.place(x=200, y=720)
 
-        label7 = Label(self.frame, text="Already have an account?", font=("", 14), pady=10,\
+        label7 = Label(self.frame, text="Already have an account?", font=("", 16), pady=10,\
                      bg='white')
-        label7.place(x=130, y=680)
-        label8 = Label(self.frame, text="Login", font=("", 14), pady=10, fg="#668cff", bg='white')
-        label8.place(x=350, y=680)
+        label7.place(x=200, y=770)
+        label8 = Label(self.frame, text="Login", font=("", 16), pady=10, fg="#668cff", bg='white')
+        label8.place(x=450, y=770)
         label8.bind("<Button-1>", lambda e:self.login_ui())
 
         self.frame.mainloop()
