@@ -1,5 +1,5 @@
 """ Module for editing plants and its UI"""
-from tkinter import Tk, Frame, Label, Entry, Text, Button, StringVar, IntVar, Canvas, messagebox, filedialog, NW, TOP, BOTH, WORD, END, INSERT
+from tkinter import Tk, Frame, Label, Entry, Button, StringVar, IntVar, messagebox, filedialog, TOP, BOTH, WORD, END, INSERT
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
 from PIL import Image, ImageTk
@@ -105,10 +105,10 @@ class Edit:
                 database.close()
                 self.clear_screen()
 
-    def edit_plant_ui(self, id):
+    def edit_plant_ui(self, item_id):
         """edit plant ui"""
         self.clear_screen()
-        self.item_id.set(id)
+        self.item_id.set(item_id)
 
         database = sqlite3.connect("tanaman.db")
         cursor = database.cursor()
@@ -126,9 +126,9 @@ class Edit:
         self.img_box.configure(image=plant_img)
         self.img_box.image = plant_img
 
-        labelTitle = Label(self.frame, text="Edit Tanaman",
-                           font=("", 18), pady=7, bg='white')
-        labelTitle.place(x=130, y=20)
+        label_title = Label(self.frame, text="Edit Tanaman",
+                            font=("", 18), pady=7, bg='white')
+        label_title.place(x=130, y=20)
 
         label2 = Label(self.frame, text="File Gambar:",
                        font=("", 14), pady=7, bg='white')
@@ -181,9 +181,9 @@ class Edit:
     def add_plant_ui(self):
         """ui for adding plants"""
         self.clear_screen()
-        labelTitle = Label(self.frame, text="Tambah Tanaman",
-                           font=("", 20), pady=7, bg='white')
-        labelTitle.place(x=130, y=50)
+        label_title = Label(self.frame, text="Tambah Tanaman",
+                            font=("", 20), pady=7, bg='white')
+        label_title.place(x=130, y=50)
 
         label2 = Label(self.frame, text="File Gambar:",
                        font=("", 14), pady=7, bg='white')
@@ -235,5 +235,5 @@ class Edit:
 
 if __name__ == "__main__":
     edit = Edit()
-    # edit.add_plant_ui()
-    edit.edit_plant_ui(4)
+    edit.add_plant_ui()
+    # edit.edit_plant_ui(4)
