@@ -2,7 +2,8 @@
 
 import sqlite3
 
-if __name__ == "__main__":
+
+def init_db():
     conn = sqlite3.connect('puspa.db')
     cur = conn.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS user(username TEXT PRIMARY KEY, name TEXT, email TEXT,'
@@ -16,3 +17,7 @@ if __name__ == "__main__":
                 + 'duration INTEGER, quantity INTEGER, unit_price INTEGER);')
     conn.commit()
     conn.close()
+
+
+if __name__ == "__main__":
+    init_db()
