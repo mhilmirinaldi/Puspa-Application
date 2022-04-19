@@ -21,11 +21,10 @@ class Edit:
         self.stock = IntVar()
         self.image_path = StringVar()
         self.desc_box = ScrolledText()
-        self.img_box = Label(bg='#f6f9fc')
+        self.img_box = Label()
 
     def clear_screen(self):
         """clear ui"""
-        self.img_box.configure(image='')
         for widget in self.frame.winfo_children():
             widget.destroy()
 
@@ -169,11 +168,12 @@ class Edit:
                        bd=5, font=("", 14), width=5)
         entry5.place(x=200, y=450)
 
-        self.img_box.place(x=750, y=50)
-
         label5 = Label(self.frame, text="Gambar akan muncul disini",
                        font=("", 14), pady=7, bg='#f6f9fc')
-        label5.place(x=750, y=50)
+        label5.place(x=550, y=50)
+
+        self.img_box = Label(self.frame, bg='#f6f9fc')
+        self.img_box.place(x=550, y=50)
 
         button1 = Button(self.frame, text="Edit", command=self.edit_plant, font=("", 14),
                          width=25, bg='green', fg='#f6f9fc')
@@ -227,11 +227,12 @@ class Edit:
                        bd=5, font=("", 14), width=5)
         entry5.place(x=200, y=450)
 
-        self.img_box.place(x=750, y=50)
-
         label5 = Label(self.frame, text="Gambar akan muncul disini",
                        font=("", 14), pady=7, bg='#f6f9fc')
-        label5.place(x=750, y=50)
+        label5.place(x=550, y=50)
+
+        self.img_box = Label(self.frame, bg='#f6f9fc')
+        self.img_box.place(x=550, y=50)
 
         button1 = Button(self.frame, text="Tambah", command=self.add_plant, font=("", 14),
                          width=25, bg='green', fg='#f6f9fc')
