@@ -15,7 +15,7 @@ stages:
 pylint:
   stage: Static Analysis
   script:
-  - pylint -d C0103,R0902,R0914 $(git ls-files '*.py')
+  - pylint -d C0103,C0301,R0902,R0903,R0914,W0621,W0201 $(git ls-files '*.py')
 
 pytest:
   stage: Test
@@ -27,4 +27,4 @@ MSDeploy:
   script:
   - echo "test ms deploy"
   - cd src
-  - pyinstaller -F login.py
+  - pyinstaller -F hello.py
