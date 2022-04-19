@@ -4,28 +4,14 @@ from tkinter.scrolledtext import ScrolledText
 import sqlite3
 from PIL import Image, ImageTk
 
-ui = Tk()
-ui.title("PUSPA")
-ui.geometry("1200x800")
-ui.configure(background='white')
-
-data = sqlite3.connect("tanaman.db")
-crsr = data.cursor()
-table_init = ("CREATE TABLE IF NOT EXISTS tanaman "
-              "(item_id INTEGER PRIMARY KEY AUTOINCREMENT, item_name TEXT NOT NULL, "
-              "current_price INTEGER NOT NULL, description TEXT NOT NULL, "
-              "stock INTEGER NOT NULL, image_path TEXT NOT NULL);")
-crsr.execute(table_init)
-data.close()
-
 
 class Edit:
     """class Edit"""
 
-    def __init__(self):
+    def __init__(self, frm_parent):
         """constructor"""
-        ui.state('zoomed')
-        self.frame = Frame(ui, bg='white')
+        self.frm_parent = frm_parent
+        self.frame = Frame(self.frm_parent, bg="#f6f9fc")
         self.frame.pack(side=TOP, expand=True, fill=BOTH)
 
         self.item_id = IntVar()
@@ -35,10 +21,11 @@ class Edit:
         self.stock = IntVar()
         self.image_path = StringVar()
         self.desc_box = ScrolledText()
-        self.img_box = Label(bg='white')
+        self.img_box = Label(bg='#f6f9fc')
 
     def clear_screen(self):
         """clear ui"""
+        self.img_box.configure(image='')
         for widget in self.frame.winfo_children():
             widget.destroy()
 
@@ -54,7 +41,7 @@ class Edit:
     def edit_plant(self):
         """edit plant function"""
         self.description.set(self.desc_box.get("1.0", END))
-        database = sqlite3.connect("tanaman.db")
+        database = sqlite3.connect("puspa.db")
         cursor = database.cursor()
 
         find_plant = 'SELECT * FROM tanaman WHERE item_id = ?'
@@ -79,7 +66,7 @@ class Edit:
     def add_plant(self):
         """add plant function"""
         self.description.set(self.desc_box.get("1.0", END))
-        database = sqlite3.connect("tanaman.db")
+        database = sqlite3.connect("puspa.db")
         cursor = database.cursor()
 
         find_plant = 'SELECT * FROM tanaman WHERE item_id = ?'
@@ -103,14 +90,13 @@ class Edit:
                 messagebox.showinfo("Add Success", "Add Successful")
                 database.commit()
                 database.close()
-                self.clear_screen()
 
     def edit_plant_ui(self, item_id):
         """edit plant ui"""
         self.clear_screen()
         self.item_id.set(item_id)
 
-        database = sqlite3.connect("tanaman.db")
+        database = sqlite3.connect("puspa.db")
         cursor = database.cursor()
         find_plant = 'SELECT * FROM tanaman WHERE item_id = ?'
         cursor.execute(find_plant, [(self.item_id.get())])
@@ -127,25 +113,25 @@ class Edit:
         self.img_box.image = plant_img
 
         label_title = Label(self.frame, text="Edit Tanaman",
-                            font=("", 18), pady=7, bg='white')
+                            font=("", 18), pady=7, bg='#f6f9fc')
         label_title.place(x=130, y=20)
 
         label2 = Label(self.frame, text="File Gambar:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label2.place(x=130, y=110)
         button0 = Button(self.frame, text='Select Image',
                          command=self.open_file)
         button0.place(x=240, y=115)
 
         label2 = Label(self.frame, text="Nama Tanaman:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label2.place(x=130, y=150)
         entry2 = Entry(self.frame, textvariable=self.item_name,
                        bd=5, font=("", 14), width=25)
         entry2.place(x=130, y=190)
 
         label3 = Label(self.frame, text="Deskripsi:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label3.place(x=130, y=230)
         self.desc_box = ScrolledText(
             self.frame, wrap=WORD, width=50, height=100, )
@@ -153,14 +139,14 @@ class Edit:
         self.desc_box.insert(INSERT, chars=self.description.get())
 
         label4 = Label(self.frame, text="Stock:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label4.place(x=130, y=400)
         entry4 = Entry(self.frame, textvariable=self.stock,
                        bd=5, font=("", 14), width=5)
         entry4.place(x=200, y=400)
 
         label5 = Label(self.frame, text="Harga:              /Tanaman/Hari",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label5.place(x=130, y=450)
         entry5 = Entry(self.frame, textvariable=self.current_price,
                        bd=5, font=("", 14), width=5)
@@ -169,11 +155,11 @@ class Edit:
         self.img_box.place(x=550, y=50)
 
         label5 = Label(self.frame, text="Gambar akan muncul disini",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label5.place(x=550, y=50)
 
         button1 = Button(self.frame, text="Edit", command=self.edit_plant, font=("", 14),
-                         width=25, bg='green', fg='white')
+                         width=25, bg='green', fg='#f6f9fc')
         button1.place(x=130, y=600)
 
         self.frame.mainloop()
@@ -182,39 +168,39 @@ class Edit:
         """ui for adding plants"""
         self.clear_screen()
         label_title = Label(self.frame, text="Tambah Tanaman",
-                            font=("", 20), pady=7, bg='white')
+                            font=("", 20), pady=7, bg='#f6f9fc')
         label_title.place(x=130, y=50)
 
         label2 = Label(self.frame, text="File Gambar:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label2.place(x=130, y=110)
         button0 = Button(self.frame, text='Select Image',
                          command=self.open_file)
         button0.place(x=240, y=115)
 
         label2 = Label(self.frame, text="Nama Tanaman:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label2.place(x=130, y=150)
         entry2 = Entry(self.frame, textvariable=self.item_name,
                        bd=5, font=("", 14), width=25)
         entry2.place(x=130, y=190)
 
         label3 = Label(self.frame, text="Deskripsi:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label3.place(x=130, y=230)
         self.desc_box = ScrolledText(
             self.frame, wrap=WORD, width=50, height=100)
         self.desc_box.place(x=130, y=270, height=100)
 
         label4 = Label(self.frame, text="Stock:",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label4.place(x=130, y=400)
         entry4 = Entry(self.frame, textvariable=self.stock,
                        bd=5, font=("", 14), width=5)
         entry4.place(x=200, y=400)
 
         label5 = Label(self.frame, text="Harga:              /Tanaman/Hari",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label5.place(x=130, y=450)
         entry5 = Entry(self.frame, textvariable=self.current_price,
                        bd=5, font=("", 14), width=5)
@@ -223,11 +209,11 @@ class Edit:
         self.img_box.place(x=550, y=50)
 
         label5 = Label(self.frame, text="Gambar akan muncul disini",
-                       font=("", 14), pady=7, bg='white')
+                       font=("", 14), pady=7, bg='#f6f9fc')
         label5.place(x=550, y=50)
 
         button1 = Button(self.frame, text="Tambah", command=self.add_plant, font=("", 14),
-                         width=25, bg='green', fg='white')
+                         width=25, bg='green', fg='#f6f9fc')
         button1.place(x=130, y=600)
 
         self.frame.mainloop()
