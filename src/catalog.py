@@ -8,13 +8,15 @@ class TanamanGuiEntry(tk.LabelFrame):
     """Berisi Suatu Entri Tanaman"""
     def __init__(self, master, bg = "#FFFFFF", padx = 0, pady = 0) -> None:
         super().__init__(master=master, padx=padx, pady=pady, bg=bg)
+        self.tanaman = None
+        self.plant_image = None
 
     def set_tanaman(self, tanaman):
         """Mengeset tanaman pada entri GUI ini"""
         self.tanaman = tanaman
 
     @staticmethod
-    def generate(master, tanaman, username, termaster):
+    def generate(master, tanaman):
         """Menghasilkan tanamanGuiEntry baru"""
         pge = TanamanGuiEntry(master, padx=10, pady=10)
         pge.set_tanaman(tanaman)
@@ -43,15 +45,18 @@ class TanamanGuiEntry(tk.LabelFrame):
         return pge
 
 class Catalog():
+    """catalog UI"""
     def __init__(self, master, username):
         self.master = master
         self.username = username
-        self.anu()
+        self.create_widgets()
 
-    def anu(self):
+    def create_widgets(self):
+        """membuat widget"""
         # Konfigurasi Scrollbar
         catalog_canvas = tk.Canvas(self.master)
-        catalog_scrollbar = tk.Scrollbar(self.master, orient=tk.VERTICAL, command=catalog_canvas.yview)
+        catalog_scrollbar = tk.Scrollbar(self.master, orient=tk.VERTICAL,\
+            command=catalog_canvas.yview)
         catalog_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         catalog_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
@@ -78,8 +83,9 @@ class Catalog():
         i = 0
         j = 0
         for tanaman in results:
-            pge = TanamanGuiEntry.generate(catalog_frame, tanaman, self.username, self.master)
+            pge = TanamanGuiEntry.generate(catalog_frame, tanaman)
             pge.grid(row=i, column=j,  padx=10, pady=10, sticky="ew")
-            if(j == total_column - 1):
+            if j == total_column - 1:
                 i += 1
             j = (j + 1) % total_column
+            

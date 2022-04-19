@@ -25,3 +25,4 @@ def get_all_tanaman() -> 'list[TanamanInfo]':
         ret.append(tanaman)
 
     return ret
+    

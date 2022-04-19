@@ -6,7 +6,6 @@ class User:
     """Berisi informasi lengkap dari User"""
     def __init__(self, username):
         self.username = username
-        pass
 
     def get_info(self, single_query_result):
         """Mendapatkan informasi lengkap dari user"""
@@ -25,3 +24,4 @@ class User:
         cur.execute('SELECT * FROM user WHERE username=?;', (self.username,))
         results_fetch = cur.fetchall()
         return results_fetch
+        
