@@ -11,7 +11,7 @@ def test_calculate_cost():
     pesanan.quantity = 5
     pesanan.duration = 5
     assert daftar_pesanan.calculate_cost(pesanan) == 250000
-    
+
 def test_is_expired():
     """Testing pengecekan expired"""
     waktu_now = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -19,7 +19,7 @@ def test_is_expired():
     waktu_tomorrow = waktu_now + datetime.timedelta(days=1)
     waktu_yesterday = waktu_now + datetime.timedelta(days=-1)
 
-    assert daftar_pesanan.is_expired(waktu_now) == False
-    assert daftar_pesanan.is_expired(waktu_tomorrow) == False
-    assert daftar_pesanan.is_expired(waktu_yesterday) == True
+    assert not daftar_pesanan.is_expired(waktu_now)
+    assert not daftar_pesanan.is_expired(waktu_tomorrow)
+    assert daftar_pesanan.is_expired(waktu_yesterday)
     

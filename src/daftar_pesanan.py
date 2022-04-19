@@ -139,15 +139,12 @@ class DaftarPesananPage(tk.Frame):
         for pesanan in results:
             pge = PesananGuiEntry.generate(pesanan_frame, pesanan)
             pge.pack(fill='x', padx=10, pady=(10,0))
-        
+
 def is_expired(tanggal_selesai):
     """Mengecek apakah suatu tanggal telah kadaluarsa"""
     nowliteral = datetime.datetime.now().strftime("%Y-%m-%d")
     sekarang = datetime.datetime.strptime(nowliteral, "%Y-%m-%d") # menghilangkan komponen jam dan menit
-    if(tanggal_selesai < sekarang):
-        return True
-    else:
-        return False
+    return tanggal_selesai < sekarang
 
 
 def get_all_pesanan(isadmin: bool, username:str = None) -> 'list[PesananInfo]':
