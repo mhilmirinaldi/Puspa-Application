@@ -15,7 +15,7 @@ stages:
 pylint:
   stage: Static Analysis
   script:
-  - pylint -d C0103 $(git ls-files '*.py')
+  - pylint -d C0103,W0401,W0621,R0902,W0614 $(git ls-files '*.py')
 
 pytest:
   stage: Test
