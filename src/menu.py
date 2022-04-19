@@ -4,8 +4,9 @@ from User import *
 from catalog import *
 from edit import Edit
 from tkinter import Tk
-
-
+from daftar_pesanan import DaftarPesananPage
+import os
+import sys
 class MenuApp():
     """Menu App"""
 
@@ -25,6 +26,10 @@ class MenuApp():
     def user(self):
         """ Get user info """
         self.user_info = User(self.username).get_user()
+        if self.user_info[0][6] == 'admin':
+            self.is_admin = True
+        else:
+            self.is_admin = False
 
     def create_widgets(self):
         """ Create widgets """
@@ -60,12 +65,14 @@ class MenuApp():
 
         self.menu_values = {
             "Menu and Order": "1",
-            "History": "2",
-            "Editor": "3",
-            "About": "4"
+            "Pesanan": "2",
+            "Tambah Tanaman": "3"
         }
 
         for menu_name, menu_value in self.menu_values.items():
+            if(not self.is_admin):
+                if(menu_value == "3"):
+                    continue
             btn_menu = tk.Radiobutton(self.frm_menu_button, text=menu_name,
                                       variable=self.selected_menu, value=menu_value, indicator=0,
                                       bg="white", font=(None, 12), activeforeground="#4ec197",
@@ -73,37 +80,37 @@ class MenuApp():
             btn_menu.grid(row=int(menu_value), column=0, sticky="nsew")
 
         btn_logout = tk.Button(self.frm_left, text="Logout", font=(None, 12),
-                               bg="white", command=self.frame.destroy)
+                               bg="white", command=self.logout)
         btn_logout.pack(side="bottom", pady=(0, 10))
 
         # default menu
-        Catalog(self.frm_right, self.username)
+        Catalog(self.frm_right, self.is_admin, self.user_info[0][0])
 
     def menu_clicked(self):
         """ Menu button clicked """
         edit = None
         if (edit != None):
-            edit.img_box.configure(image='')
+            edit.clear_image()
         for widgets in self.frm_right.winfo_children():
             widgets.destroy()
         if self.selected_menu.get() == "1":
-            Catalog(self.frm_right, self.username)
+            Catalog(self.frm_right, self.is_admin, self.user_info[0][0])
         elif self.selected_menu.get() == "2":
             # b = Riwayat(self.frm_right)
-            lbl_dua = tk.Label(self.frm_right, text="riwayat",
-                               font=("Arial", 20, "bold"))
-            lbl_dua.grid(row=0, column=0)
+            dpp = DaftarPesananPage(self.frm_right, self.user_info[0][0], self.is_admin)
+            dpp.pack(expand=True, fill="both")
         elif self.selected_menu.get() == "3":
             edit = Edit(self.frm_right)
             edit.add_plant_ui()
-        elif self.selected_menu.get() == "4":
-            lbl_empat = tk.Label(self.frm_right, text="About",
-                                 font=("Arial", 20, "bold"))
-            lbl_empat.grid(row=0, column=0)
         elif self.selected_menu.get() == "5":
             lbl_lima = tk.Label(self.frm_right, text="Logout",
                                 font=("Arial", 20, "bold"))
             lbl_lima.grid(row=0, column=0)
+
+    def logout(self):
+        """ Logout """
+        self.frame.destroy()
+        os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
 
 
 if __name__ == "__main__":
@@ -113,6 +120,6 @@ if __name__ == "__main__":
     ui.geometry("1920x1080")
     ui.configure(background='white')
     ui.state('zoomed')
-    username = "bob"
+    username = "trisulton"
     app = MenuApp(ui, username)
     app.frame.mainloop()

@@ -100,21 +100,11 @@ class DaftarPesananPage(tk.Frame):
         self.username = username
         self.isadmin = isadmin
 
-        # Title dan tombol kembali
-        title_text = tk.Label(self, text="Daftar Pesanan", font=("arial", "20", "bold"), bg="#FFFFFF")
-        title_text.pack(fill='x')
-
-        back_text = tk.StringVar()
-        back_button = tk.Button(self, textvariable=back_text, bg='#55A361', fg='#FFFFFF',
-                                bd=0, font=("Arial", "9", "bold"), padx=10, pady=5)
-        back_button.pack(anchor='w', pady=(5, 10))
-        back_text.set("< Kembali")
-
         # Konfigurasi Scrollbar
         pesanan_canvas = tk.Canvas(self)
         pesanan_scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=pesanan_canvas.yview)
         pesanan_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, pady=(20, 0))
 
         def _on_mouse_wheel(event):
             pesanan_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")

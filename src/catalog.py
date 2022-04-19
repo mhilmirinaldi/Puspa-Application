@@ -3,7 +3,22 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from Tanaman import *
+from edit import *
+from pemesanan import *
 
+def edit_tanaman(frm, id_item):
+    """edit tanaman function"""
+    for widgets in frm.winfo_children():
+        widgets.destroy()
+    edit = Edit(frm)
+    edit.edit_plant_ui(id_item)
+
+def selengkapnya(frm, item_id, username):
+    """Menampilkan halaman selengkapnya"""
+    for widgets in frm.winfo_children():
+        widgets.destroy()
+    detail_tanaman_frame = DetailTanaman(frm, username, item_id)
+    detail_tanaman_frame.pack(expand=True, fill="both")
 class TanamanGuiEntry(tk.LabelFrame):
     """Berisi Suatu Entri Tanaman"""
     def __init__(self, master, bg = "#FFFFFF", padx = 0, pady = 0) -> None:
@@ -16,7 +31,7 @@ class TanamanGuiEntry(tk.LabelFrame):
         self.tanaman = tanaman
 
     @staticmethod
-    def generate(master, tanaman):
+    def generate(master, tanaman, is_admin, prev_frame, username):
         """Menghasilkan tanamanGuiEntry baru"""
         pge = TanamanGuiEntry(master, padx=10, pady=10)
         pge.set_tanaman(tanaman)
@@ -39,16 +54,23 @@ class TanamanGuiEntry(tk.LabelFrame):
         tk.Label(pge, text=tanaman.stock, bg="#FFFFFF").grid(row=3, column=1, sticky="w")
 
         # selengkapnya
-        btn_selengkapnya = tk.Button(pge, text="Selengkapnya", bg="green", fg="white")
+        btn_selengkapnya = tk.Button(pge, text="Selengkapnya", bg="green", fg="white", command=lambda: selengkapnya(prev_frame, tanaman.item_id, username))
         btn_selengkapnya.grid(row=4, column=0, columnspan=2, sticky="ew")
+
+        if is_admin:
+            # edit
+            btn_edit = tk.Button(pge, text="Edit", bg="blue", fg="white", command=lambda: edit_tanaman(prev_frame, tanaman.item_id))
+            btn_edit.grid(row=5, column=0, columnspan=2, sticky="ew")
 
         return pge
 
 class Catalog():
     """catalog UI"""
-    def __init__(self, master, username):
-        self.master = master
+    def __init__(self, master, is_admin, username):
+        """Inisialisasi catalog"""
         self.username = username
+        self.master = master
+        self.is_admin = is_admin
         self.create_widgets()
 
     def create_widgets(self):
@@ -83,9 +105,10 @@ class Catalog():
         i = 0
         j = 0
         for tanaman in results:
-            pge = TanamanGuiEntry.generate(catalog_frame, tanaman)
+            pge = TanamanGuiEntry.generate(catalog_frame, tanaman, self.is_admin, self.master, self.username)
             pge.grid(row=i, column=j,  padx=10, pady=10, sticky="ew")
             if j == total_column - 1:
                 i += 1
             j = (j + 1) % total_column
+
             

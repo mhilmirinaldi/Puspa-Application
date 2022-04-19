@@ -90,11 +90,7 @@ class DetailTanaman(tk.Frame):
         pesan_button = tk.Button(self, text="Pesan", bg='#55A361', fg='#FFFFFF',
                             bd=0, font=("Arial", "12", "bold"), padx=10, pady=7,
                             command=self.pesan)
-        back_button = tk.Button(self, text="Kembali", fg='#000000',
-                            bd=0, font=("Arial", "11", "bold"), padx=10, pady=7,
-                            command=self.kembali)
         pesan_button.grid(row=7, column=0, pady=(20,0), sticky="we")
-        back_button.grid(row=8, column=0, pady=(10,0), sticky="we")
 
         self.plant_image = ImageTk.PhotoImage(
             Image.open(tanaman_info.image_path).resize(size=(500, 500), resample=Image.NEAREST)
