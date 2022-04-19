@@ -64,10 +64,11 @@ class TanamanGuiEntry(tk.LabelFrame):
         tk.Label(pge, text=tanaman.stock, bg="#FFFFFF").grid(
             row=3, column=1, sticky="w")
 
-        # selengkapnya
-        btn_selengkapnya = tk.Button(pge, text="Selengkapnya", bg="green", fg="white",
-                                     command=lambda: selengkapnya(prev_frame, tanaman.item_id, username))
-        btn_selengkapnya.grid(row=4, column=0, columnspan=2, sticky="ew")
+        if not is_admin:
+            # selengkapnya
+            btn_selengkapnya = tk.Button(pge, text="Selengkapnya", bg="green", fg="white",
+                                        command=lambda: selengkapnya(prev_frame, tanaman.item_id, username))
+            btn_selengkapnya.grid(row=4, column=0, columnspan=2, sticky="ew")
 
         if is_admin:
             # edit

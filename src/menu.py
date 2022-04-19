@@ -65,7 +65,7 @@ class MenuApp():
         self.selected_menu = tk.StringVar(self.frm_menu_button, "1")
 
         self.menu_values = {
-            "Menu and Order": "1",
+            "Katalog": "1",
             "Pesanan": "2",
             "Tambah Tanaman": "3"
         }
