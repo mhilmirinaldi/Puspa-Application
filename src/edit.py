@@ -61,7 +61,24 @@ class Edit:
             messagebox.showinfo("Add Success", "Add Successful")
             database.commit()
             database.close()
-            self.clear_screen()
+
+    def delete_plant(self):
+        """delete current plant from database"""
+        database = sqlite3.connect("puspa.db")
+        cursor = database.cursor()
+
+        find_plant = 'SELECT * FROM tanaman WHERE item_id = ?'
+        cursor.execute(find_plant, [(self.item_id.get())])
+
+        result = cursor.fetchall()
+        if result:
+            cursor.execute("DELETE FROM tanaman WHERE item_id = ?", [
+                           (self.item_id.get())])
+            messagebox.showinfo("Delete Success", "Delete Successful")
+            database.commit()
+            database.close()
+        else:
+            messagebox.showerror("Delete Failed", "Plant not found")
 
     def add_plant(self):
         """add plant function"""
@@ -152,15 +169,19 @@ class Edit:
                        bd=5, font=("", 14), width=5)
         entry5.place(x=200, y=450)
 
-        self.img_box.place(x=550, y=50)
+        self.img_box.place(x=750, y=50)
 
         label5 = Label(self.frame, text="Gambar akan muncul disini",
                        font=("", 14), pady=7, bg='#f6f9fc')
-        label5.place(x=550, y=50)
+        label5.place(x=750, y=50)
 
         button1 = Button(self.frame, text="Edit", command=self.edit_plant, font=("", 14),
                          width=25, bg='green', fg='#f6f9fc')
         button1.place(x=130, y=600)
+
+        button1 = Button(self.frame, text="Delete", command=self.delete_plant, font=("", 14),
+                         width=25, bg='red', fg='#f6f9fc')
+        button1.place(x=130, y=650)
 
         self.frame.mainloop()
 
@@ -206,11 +227,11 @@ class Edit:
                        bd=5, font=("", 14), width=5)
         entry5.place(x=200, y=450)
 
-        self.img_box.place(x=550, y=50)
+        self.img_box.place(x=750, y=50)
 
         label5 = Label(self.frame, text="Gambar akan muncul disini",
                        font=("", 14), pady=7, bg='#f6f9fc')
-        label5.place(x=550, y=50)
+        label5.place(x=750, y=50)
 
         button1 = Button(self.frame, text="Tambah", command=self.add_plant, font=("", 14),
                          width=25, bg='green', fg='#f6f9fc')
@@ -220,6 +241,6 @@ class Edit:
 
 
 if __name__ == "__main__":
-    edit = Edit()
+    edit = Edit(ui)
     edit.add_plant_ui()
-    # edit.edit_plant_ui(4)
+    # edit.edit_plant_ui(14)
