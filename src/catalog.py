@@ -1,0 +1,85 @@
+"""Menu Catalog"""
+
+import tkinter as tk
+from PIL import Image, ImageTk
+from Tanaman import *
+
+class TanamanGuiEntry(tk.LabelFrame):
+    """Berisi Suatu Entri Tanaman"""
+    def __init__(self, master, bg = "#FFFFFF", padx = 0, pady = 0) -> None:
+        super().__init__(master=master, padx=padx, pady=pady, bg=bg)
+
+    def set_tanaman(self, tanaman):
+        """Mengeset tanaman pada entri GUI ini"""
+        self.tanaman = tanaman
+
+    @staticmethod
+    def generate(master, tanaman, username, termaster):
+        """Menghasilkan tanamanGuiEntry baru"""
+        pge = TanamanGuiEntry(master, padx=10, pady=10)
+        pge.set_tanaman(tanaman)
+
+        # row image
+        pge.plant_image = ImageTk.PhotoImage(Image.open(tanaman.image_path).resize((125, 125)))
+        plant_image_label = tk.Label(pge, image=pge.plant_image, bg="#FFFFFF")
+        plant_image_label.grid(row=0, column=0, columnspan=2, sticky="nwes")
+
+        # nama tanaman bold
+        plant_name_label = tk.Label(pge, text=tanaman.name, bg="#FFFFFF", font=(None, 12, "bold"))
+        plant_name_label.grid(row=1, column=0, sticky="w", pady=(10, 0))
+
+        # harga
+        tk.Label(pge, text="Harga:", bg="#FFFFFF").grid(row=2, column=0, sticky="w")
+        tk.Label(pge, text=tanaman.current_price, bg="#FFFFFF").grid(row=3, column=0, sticky="w")
+
+        # stok
+        tk.Label(pge, text="Stok:", bg="#FFFFFF").grid(row=2, column=1, sticky="w")
+        tk.Label(pge, text=tanaman.stock, bg="#FFFFFF").grid(row=3, column=1, sticky="w")
+
+        # selengkapnya
+        btn_selengkapnya = tk.Button(pge, text="Selengkapnya", bg="green", fg="white")
+        btn_selengkapnya.grid(row=4, column=0, columnspan=2, sticky="ew")
+
+        return pge
+
+class Catalog():
+    def __init__(self, master, username):
+        self.master = master
+        self.username = username
+        self.anu()
+
+    def anu(self):
+        # Konfigurasi Scrollbar
+        catalog_canvas = tk.Canvas(self.master)
+        catalog_scrollbar = tk.Scrollbar(self.master, orient=tk.VERTICAL, command=catalog_canvas.yview)
+        catalog_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        catalog_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        def _on_mouse_wheel(event):
+            catalog_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+        catalog_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+
+        # Membuat frame catalog dan memasukkannya ke scrollbar canvas
+        catalog_frame = tk.LabelFrame(catalog_canvas, text="Daftar catalog", bg="#FFFFFF")
+        catalog_frame.bind(
+            "<Configure>",
+            lambda e: catalog_canvas.configure(scrollregion=catalog_canvas.bbox("all"))
+        )
+        catalog_frame_id = catalog_canvas.create_window((0, 0), window=catalog_frame, anchor="nw")
+        catalog_canvas.configure(yscrollcommand=catalog_scrollbar.set)
+        catalog_canvas.bind(
+            "<Configure>",
+            lambda e: catalog_canvas.itemconfig(catalog_frame_id, width=e.width)
+        )
+
+       #  Mengambil data dari database dan memasukkannya ke frame
+        results = get_all_tanaman()
+        total_column = 7
+        i = 0
+        j = 0
+        for tanaman in results:
+            pge = TanamanGuiEntry.generate(catalog_frame, tanaman, self.username, self.master)
+            pge.grid(row=i, column=j,  padx=10, pady=10, sticky="ew")
+            if(j == total_column - 1):
+                i += 1
+            j = (j + 1) % total_column
