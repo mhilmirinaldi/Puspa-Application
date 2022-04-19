@@ -1,5 +1,5 @@
 """ Module for editing plants and its UI"""
-from tkinter import Tk, Frame, Label, Entry, Button, StringVar, IntVar, messagebox, filedialog, TOP, BOTH, WORD, END, INSERT
+from tkinter import Frame, Label, Entry, Button, StringVar, IntVar, messagebox, filedialog, TOP, BOTH, WORD, END, INSERT
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
 from PIL import Image, ImageTk
@@ -239,9 +239,3 @@ class Edit:
         button1.place(x=130, y=600)
 
         self.frame.mainloop()
-
-
-if __name__ == "__main__":
-    edit = Edit(ui)
-    edit.add_plant_ui()
-    # edit.edit_plant_ui(14)

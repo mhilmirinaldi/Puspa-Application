@@ -1,16 +1,9 @@
 """import module"""
-from tkinter import Tk, Frame, Label, Entry, Button, StringVar, Canvas, NW, TOP, BOTH
+from tkinter import Frame, Label, Entry, Button, StringVar, Canvas, NW, TOP, BOTH
 from tkinter import messagebox as ms
 import sqlite3
-import menu
 from PIL import Image, ImageTk
-
-data = sqlite3.connect("puspa.db")
-crsr = data.cursor()
-crsr.execute("CREATE TABLE IF NOT EXISTS user (username TEXT NOT NULL, password TEXT NOT NULL,\
-        name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL,\
-        role DEFAULT 'USER');")
-data.close()
+import menu
 
 
 class Login:
@@ -91,8 +84,8 @@ class Login:
                 ms.showerror("Register Failed", "Username already exists")
             else:
                 cursor.execute("INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?)",
-                               (self.username.get(), self.password.get(), self.name.get(),
-                                self.email.get(), self.phone.get(), self.address.get(), "USER"))
+                               (self.username.get(), self.name.get(), self.email.get(),
+                                self.password.get(), self.address.get(), self.phone.get(), "user"))
                 ms.showinfo("Register Success", "Register Successful")
                 database.commit()
                 database.close()
@@ -213,8 +206,3 @@ class Login:
         label8.bind("<Button-1>", lambda e: self.login_ui())
 
         self.frame.mainloop()
-
-
-if __name__ == "__main__":
-    ui = Login()
-    ui.login_ui()

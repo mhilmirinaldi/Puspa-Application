@@ -1,12 +1,13 @@
 """Menu App"""
 
+import os
+import sys
 from User import *
 from catalog import *
 from edit import Edit
-from tkinter import Tk
 from daftar_pesanan import DaftarPesananPage
-import os
-import sys
+
+
 class MenuApp():
     """Menu App"""
 
@@ -70,8 +71,8 @@ class MenuApp():
         }
 
         for menu_name, menu_value in self.menu_values.items():
-            if(not self.is_admin):
-                if(menu_value == "3"):
+            if not self.is_admin:
+                if menu_value == "3":
                     continue
             btn_menu = tk.Radiobutton(self.frm_menu_button, text=menu_name,
                                       variable=self.selected_menu, value=menu_value, indicator=0,
@@ -88,16 +89,14 @@ class MenuApp():
 
     def menu_clicked(self):
         """ Menu button clicked """
-        edit = None
-        if (edit != None):
-            edit.clear_image()
         for widgets in self.frm_right.winfo_children():
             widgets.destroy()
         if self.selected_menu.get() == "1":
             Catalog(self.frm_right, self.is_admin, self.user_info[0][0])
         elif self.selected_menu.get() == "2":
             # b = Riwayat(self.frm_right)
-            dpp = DaftarPesananPage(self.frm_right, self.user_info[0][0], self.is_admin)
+            dpp = DaftarPesananPage(
+                self.frm_right, self.user_info[0][0], self.is_admin)
             dpp.pack(expand=True, fill="both")
         elif self.selected_menu.get() == "3":
             edit = Edit(self.frm_right)
@@ -111,15 +110,3 @@ class MenuApp():
         """ Logout """
         self.frame.destroy()
         os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
-
-
-if __name__ == "__main__":
-    # pass username argument dari login
-    ui = Tk()
-    ui.title("PUSPA - Pusat Penyewaan Tanaman")
-    ui.geometry("1920x1080")
-    ui.configure(background='white')
-    ui.state('zoomed')
-    username = "trisulton"
-    app = MenuApp(ui, username)
-    app.frame.mainloop()

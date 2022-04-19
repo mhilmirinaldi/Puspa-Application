@@ -1,7 +1,7 @@
 """ Main program """
+from tkinter import Tk
 import login
 import initialize_db as init_db
-from tkinter import Tk
 
 
 def main():

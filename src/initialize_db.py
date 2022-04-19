@@ -4,6 +4,7 @@ import sqlite3
 
 
 def init_db():
+    """ Initialize database """
     conn = sqlite3.connect('puspa.db')
     cur = conn.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS user(username TEXT PRIMARY KEY, name TEXT, email TEXT,'
