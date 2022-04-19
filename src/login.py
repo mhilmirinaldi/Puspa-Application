@@ -10,7 +10,7 @@ ui.geometry("1920x1080")
 ui.configure(background='white')
 ui.state('zoomed')
 
-data = sqlite3.connect("user.db")
+data = sqlite3.connect("puspa.db")
 crsr = data.cursor()
 crsr.execute("CREATE TABLE IF NOT EXISTS user (username TEXT NOT NULL, password TEXT NOT NULL,\
         name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL,\
@@ -40,7 +40,7 @@ class Login:
 
     def login(self):
         """login function"""
-        database = sqlite3.connect("user.db")
+        database = sqlite3.connect("puspa.db")
         cursor = database.cursor()
 
         find_user = 'SELECT * FROM user WHERE username = ? and password = ?'
@@ -59,7 +59,7 @@ class Login:
 
     def register(self):
         """register function"""
-        database = sqlite3.connect("user.db")
+        database = sqlite3.connect("puspa.db")
         cursor = database.cursor()
 
         find_user = 'SELECT * FROM user WHERE username = ?'
