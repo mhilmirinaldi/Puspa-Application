@@ -93,23 +93,92 @@ class PesananGuiEntry(tk.LabelFrame):
         pge.grid_columnconfigure(3, weight=1)
         return pge
 
+class DaftarPesananPage(tk.Frame):
+    """Halaman daftar pesanan"""
+    def __init__(self, master, username, isadmin, bg="#FFFFFF", padx=100):
+        tk.Frame.__init__(self, master, bg=bg, padx=padx)
+        self.username = username
+        self.isadmin = isadmin
+
+        # Title dan tombol kembali
+        title_text = tk.Label(self, text="Daftar Pesanan", font=("arial", "20", "bold"), bg="#FFFFFF")
+        title_text.pack(fill='x')
+
+        back_text = tk.StringVar()
+        back_button = tk.Button(self, textvariable=back_text, bg='#55A361', fg='#FFFFFF',
+                                bd=0, font=("Arial", "9", "bold"), padx=10, pady=5)
+        back_button.pack(anchor='w', pady=(5, 10))
+        back_text.set("< Kembali")
+
+        # Konfigurasi Scrollbar
+        pesanan_canvas = tk.Canvas(self)
+        pesanan_scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=pesanan_canvas.yview)
+        pesanan_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        def _on_mouse_wheel(event):
+            pesanan_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+        pesanan_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+
+        # Membuat frame pesanan dan memasukkannya ke scrollbar canvas
+        pesanan_frame = tk.LabelFrame(pesanan_canvas, text="Daftar Pesanan", bg="#FFFFFF")
+        pesanan_frame.bind(
+            "<Configure>",
+            lambda e: pesanan_canvas.configure(scrollregion=pesanan_canvas.bbox("all"))
+        )
+        pesanan_frame_id = pesanan_canvas.create_window((0, 0), window=pesanan_frame, anchor="nw")
+        print(pesanan_canvas.winfo_width())
+        pesanan_canvas.configure(yscrollcommand=pesanan_scrollbar.set)
+        pesanan_canvas.bind(
+            "<Configure>",
+            lambda e: pesanan_canvas.itemconfig(pesanan_frame_id, width=e.width)
+        )
+
+        # Mengambil data dari database dan memasukkannya ke frame
+        results = get_all_pesanan(self.isadmin, username)
+        for pesanan in results:
+            pge = PesananGuiEntry.generate(pesanan_frame, pesanan)
+            pge.pack(fill='x', padx=10, pady=(10,0))
+
+def is_expired(tanggal_selesai):
+    """Mengecek apakah suatu tanggal telah kadaluarsa"""
+    nowliteral = datetime.datetime.now().strftime("%Y-%m-%d")
+    sekarang = datetime.datetime.strptime(nowliteral, "%Y-%m-%d") # menghilangkan komponen jam dan menit
+    return tanggal_selesai < sekarang
+
+
 def get_all_pesanan(isadmin: bool, username:str = None) -> 'list[PesananInfo]':
-    """Mendapatkan semua Pesanan yang ada di database"""
+    """Mendapatkan semua Pesanan yang ada di database dan mengupdatenya jika ada yang expired"""
     ret = []
     conn = sqlite3.connect('puspa.db')
     cur = conn.cursor()
     if isadmin:
-        cur.execute('SELECT * FROM pesanan NATURAL INNER JOIN user NATURAL INNER JOIN tanaman;')
+        cur.execute('SELECT * FROM pesanan NATURAL INNER JOIN user NATURAL INNER JOIN tanaman'
+                    + ' ORDER BY order_date DESC;')
     else:
         cur.execute(
             'SELECT * FROM pesanan NATURAL INNER JOIN user NATURAL INNER JOIN tanaman' +
-            ' WHERE username=?;',
+            ' WHERE username=? ORDER BY order_date DESC;',
         (username,))
     results_fetch = cur.fetchall()
 
     for result in results_fetch:
-        ret.append(PesananInfo(result))
+        pinfo = PesananInfo(result)
+        start_date = datetime.datetime.strptime(pinfo.order_date, "%Y-%m-%d")
+        end_date = start_date + datetime.timedelta(days=pinfo.duration)
+        if pinfo.status.upper() == "ONGOING" and is_expired(end_date):
+            cur.execute('UPDATE pesanan SET status="FINISHED" WHERE order_id=?;', [
+                pinfo.order_id
+            ])
+            cur.execute('UPDATE tanaman SET stock=stock + ? WHERE item_id=?;', [
+                pinfo.quantity,
+                pinfo.item_id
+            ])
+            pinfo.status = "FINISHED"
+        ret.append(pinfo)
 
+    conn.commit()
+    conn.close()
     return ret
 
 def calculate_cost(pesanannow):
@@ -124,44 +193,7 @@ if __name__ == "__main__":
     root.configure(bg='white')
     root.configure(padx=100, pady=10)
 
-    title_text = tk.Label(root, text="Daftar Pesanan", font=("arial", "20", "bold"), bg="#FFFFFF")
-    title_text.pack(fill='x')
-
-    back_text = tk.StringVar()
-    back_button = tk.Button(root, textvariable=back_text, bg='#55A361', fg='#FFFFFF',
-                            bd=0, font=("Arial", "9", "bold"), padx=10, pady=5)
-    back_button.pack(anchor='w', pady=(5, 10))
-    back_text.set("< Kembali")
-
-    # Konfigurasi Scrollbar
-    pesanan_canvas = tk.Canvas(root)
-    pesanan_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=pesanan_canvas.yview)
-    pesanan_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-    pesanan_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
-    def _on_mouse_wheel(event):
-        pesanan_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
-    pesanan_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
-
-    # Membuat frame pesanan dan memasukkannya ke scrollbar canvas
-    pesanan_frame = tk.LabelFrame(pesanan_canvas, text="Daftar Pesanan", bg="#FFFFFF")
-    pesanan_frame.bind(
-        "<Configure>",
-        lambda e: pesanan_canvas.configure(scrollregion=pesanan_canvas.bbox("all"))
-    )
-    pesanan_frame_id = pesanan_canvas.create_window((0, 0), window=pesanan_frame, anchor="nw")
-    print(pesanan_canvas.winfo_width())
-    pesanan_canvas.configure(yscrollcommand=pesanan_scrollbar.set)
-    pesanan_canvas.bind(
-        "<Configure>",
-        lambda e: pesanan_canvas.itemconfig(pesanan_frame_id, width=e.width)
-    )
-
-    # Mengambil data dari database dan memasukkannya ke frame
-    results = get_all_pesanan(True, "bryanahusna")
-    for pesanan in results:
-        pge = PesananGuiEntry.generate(pesanan_frame, pesanan)
-        pge.pack(fill='x', padx=10, pady=(10,0))
-
+    dpp = DaftarPesananPage(root, "bryanahusna", False)
+    dpp.pack(expand=True, fill="both")
 
     root.mainloop()
