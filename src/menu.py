@@ -90,6 +90,7 @@ class MenuApp():
     def menu_clicked(self):
         """ Menu button clicked """
         for widgets in self.frm_right.winfo_children():
+            widgets.unbind_all('<MouseWheel>')
             widgets.destroy()
         if self.selected_menu.get() == "1":
             Catalog(self.frm_right, self.is_admin, self.user_info[0][0])
