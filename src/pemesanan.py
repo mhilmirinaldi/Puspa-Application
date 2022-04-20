@@ -104,7 +104,10 @@ class DetailTanaman(tk.Frame):
         if istambah:
             self.jumlah.set(str(min(self.tanaman_info.stock, int(self.jumlah.get()) + 1)))
         else:
-            self.jumlah.set(str(max(1, int(self.jumlah.get()) - 1)))
+            if self.tanaman_info.stock == 0:
+                self.jumlah.set("0")
+            else:
+                self.jumlah.set(str(max(1, int(self.jumlah.get()) - 1)))
     def update_durasi(self, istambah):
         """Mengupdate label durasi"""
         if istambah:
@@ -114,6 +117,9 @@ class DetailTanaman(tk.Frame):
 
     def pesan(self):
         """Melakukan pemesanan dan menambahkannya ke database"""
+        if self.tanaman_info.stock < 1:
+            messagebox.showerror("Pemesanan Gagal", "Stok tanaman tidak cukup")
+            return
         conn = sqlite3.connect("puspa.db")
         success = False
         while not success:
