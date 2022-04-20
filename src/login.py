@@ -100,7 +100,7 @@ class Login:
         self.login_username = StringVar()
         self.login_password = StringVar()
 
-        background = ImageTk.PhotoImage(Image.open("background.png"))
+        background = ImageTk.PhotoImage(Image.open("../img/background.png"))
         canvas = Canvas(self.frame, height=1080, width=1160)
         canvas.create_image(0, 0, anchor=NW, image=background)
         canvas.place(x=760, y=0)

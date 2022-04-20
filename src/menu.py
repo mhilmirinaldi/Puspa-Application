@@ -41,7 +41,7 @@ class MenuApp():
         self.frm_user = tk.Frame(self.frm_left, bg="white")
         self.frm_user.pack(side="top", fill="x", pady=(10, 0))
 
-        img_user = Image.open("img/user.png").resize((75, 75))
+        img_user = Image.open("../img/user.png").resize((75, 75))
         photo_user = ImageTk.PhotoImage(img_user)
         img_lbl = tk.Label(self.frm_user, image=photo_user,
                            bg="white", width=75, height=75)

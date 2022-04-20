@@ -33,14 +33,15 @@ class Edit:
     def open_file(self):
         """file open function"""
         absolute_path = filedialog.askopenfilename(title='Select Image', filetypes=(
-            ("jpeg files", "*.jpg"), ("png files", "*.png")))
+            ("JPG files", "*.jpg"), ("PNG files", "*.png"), ("JPEG files", "*.jpeg")))
         # Copy ke folder img dan mengambil path relative nya
         try:
-            relative_path = shutil.copy2(absolute_path, "./img")
+            relative_path = shutil.copy2(absolute_path, "../img")
         except shutil.SameFileError:
-            relative_path = "./img/" + os.path.basename(absolute_path)
+            relative_path = "../img/" + os.path.basename(absolute_path)
         except:
-            messagebox.showerror(title="Failed to Load Image", message="Failed to load and copy the image! Try again!")
+            messagebox.showerror(title="Failed to Load Image",
+                                 message="Failed to load and copy the image! Try again!")
             return
 
         self.image_path.set(relative_path)

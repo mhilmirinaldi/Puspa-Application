@@ -31,6 +31,5 @@ MSDeploy:
   artifacts:
     paths:
       - src/dist/*.exe
-      - src/assets
-      - src/item_images
+      - img
       - src/puspa.db
