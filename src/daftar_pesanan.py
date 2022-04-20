@@ -117,7 +117,6 @@ class DaftarPesananPage(tk.Frame):
             lambda e: pesanan_canvas.configure(scrollregion=pesanan_canvas.bbox("all"))
         )
         pesanan_frame_id = pesanan_canvas.create_window((0, 0), window=pesanan_frame, anchor="nw")
-        print(pesanan_canvas.winfo_width())
         pesanan_canvas.configure(yscrollcommand=pesanan_scrollbar.set)
         pesanan_canvas.bind(
             "<Configure>",
