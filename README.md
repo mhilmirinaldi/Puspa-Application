@@ -38,17 +38,33 @@ Penanggung jawab : Mohamad Hilmi Rinaldi (13520149)
 ### Modul Menu
 Penanggung jawab : Tri Sulton Adila (13520033)
 
+Menu User :
+![Menu User](./doc/feature_menu_user.png)
+Menu Admin :
+![Menu Admin](./doc/feature_catalog.jpg)
+
 ### Modul Katalog Tanaman
 Penanggung jawab : Tri Sulton Adila (13520033)
+
+![Halaman Katalog](./doc/feature_catalog.jpg)
 
 ### Modul Daftar Pesanan
 Penanggung jawab : Bryan Amirul Husna (13520146)
 
+![Halaman Daftar Pesanan](./doc/feature_daftar_pesanan.jpg)
+
 ### Modul Halaman Produk
 Penanggung jawab : Bryan Amirul Husna (13520146)
 
+![Halaman Produk](./doc/feature_pesan_tanaman.jpg)
+
 ### Modul Editor Data Tanaman
 Penanggung jawab : Zayd Muhammad Kawakibi Zuhri (13520144)
+
+Edit Tanaman :
+![Halaman Edit Tanaman](./doc/feature_edit_tanaman.jpg)
+Tambah Tanaman :
+![Halaman Tambah Tanaman](./doc/feature_tambah_tanaman.jpg)
 
 ## Daftar Tabel Basis Data
 ### Tabel User
