@@ -2,6 +2,8 @@
 from tkinter import Frame, Label, Entry, Button, StringVar, IntVar, messagebox, filedialog, TOP, BOTH, WORD, END, INSERT
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
+import shutil
+import os
 from PIL import Image, ImageTk
 
 
@@ -30,8 +32,18 @@ class Edit:
 
     def open_file(self):
         """file open function"""
-        self.image_path.set(filedialog.askopenfilename(title='Select Image', filetypes=(
-            ("jpeg files", "*.jpg"), ("png files", "*.png"))))
+        absolute_path = filedialog.askopenfilename(title='Select Image', filetypes=(
+            ("jpeg files", "*.jpg"), ("png files", "*.png")))
+        # Copy ke folder img dan mengambil path relative nya
+        try:
+            relative_path = shutil.copy2(absolute_path, "./img")
+        except shutil.SameFileError:
+            relative_path = "./img/" + os.path.basename(absolute_path)
+        except:
+            messagebox.showerror(title="Failed to Load Image", message="Failed to load and copy the image! Try again!")
+            return
+
+        self.image_path.set(relative_path)
 
         plant_img = ImageTk.PhotoImage(Image.open(self.image_path.get()))
         self.img_box.configure(image=plant_img)
