@@ -65,7 +65,7 @@ class DetailTanaman(tk.Frame):
 
         self.jumlah = tk.StringVar()
         self.durasi = tk.StringVar()
-        self.jumlah.set("5")
+        self.jumlah.set(str(min(5, self.tanaman_info.stock)))
         self.durasi.set("5")
 
         jumlah_label = tk.Label(self, textvariable=self.jumlah, bg="#FFFFFF")
@@ -102,7 +102,7 @@ class DetailTanaman(tk.Frame):
     def update_jumlah(self, istambah):
         """Mengupdate label jumlah"""
         if istambah:
-            self.jumlah.set(str(max(1, int(self.jumlah.get()) + 1)))
+            self.jumlah.set(str(min(self.tanaman_info.stock, int(self.jumlah.get()) + 1)))
         else:
             self.jumlah.set(str(max(1, int(self.jumlah.get()) - 1)))
     def update_durasi(self, istambah):
