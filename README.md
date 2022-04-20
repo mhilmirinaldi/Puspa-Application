@@ -10,20 +10,17 @@ Dalam penggunaan perangkat lunak ini, user perlu melakukan registrasi terlebih d
 Sedangkan untuk admin, admin sudah terdaftar oleh sistem. Admin dapat melakukan login langsung untuk menggunakan perangkat lunak. Setelah admin melakukan login, admin dapat melihat daftar pesanan user, melihat katalog, dan mengedit tanaman yang tersedia. 
 
 ## Cara Menjalankan Aplikasi
-1. Install [python]
-2. Install Tkinter
+1. Install python
+2. Install Tkinter dan Pillow
 ```
 pip install tk
-```
-3. Install Pillow
-```
 pip install Pillow
 ```
-4. Buka folder [src]
+3. Buka folder src
 ```
 cd src
 ```
-5. Jalankan [main.py]
+4. Jalankan main.py
 ```
 python main.py
 ```
@@ -81,7 +78,7 @@ Penanggung jawab : Zayd Muhammad Kawakibi Zuhri (13520144)
 - Tabel Pesanan berisi data pesanan yang dilakukan
 - Nama tabel: pesanan
 - Atribut:
-    - order_id : bertipe INTEGER (AUTO INCREMENT) dan bersifat primary key
+    - order_id : bertipe TEXT dan bersifat primary key
     - username : bertipe TEXT dan foreign key ke user(username)
     - item_id : bertipe INTEGER dan foreign key ke tanaman(item_id)
     - status : bertipe TEXT
