@@ -10,7 +10,7 @@ Dalam penggunaan perangkat lunak ini, user perlu melakukan registrasi terlebih d
 Sedangkan untuk admin, admin sudah terdaftar oleh sistem. Admin dapat melakukan login langsung untuk menggunakan perangkat lunak. Setelah admin melakukan login, admin dapat melihat daftar pesanan user, melihat katalog, dan mengedit tanaman yang tersedia. 
 
 ## Cara Menjalankan Aplikasi
-1. Install python
+1. Install python minimum version 3.9
 2. Install Tkinter dan Pillow
 ```
 pip install tk
